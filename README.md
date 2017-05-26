@@ -262,7 +262,8 @@ Why fit_generator() is used in place of fit() is explained below
 
 #### 6. Resource Management
 
-Loading all the images at once can consume quite a bit of memory. In our case (only with sample data) we have  8096x3 images each with size 160x320x3, that is a total of 3,730,636,800 numpy uint8s in memory. This leaves little space for the model to train. We can use two techniques to solve this
+Loading all the images at once can consume quite a bit of memory. In our case (only with sample data) we have 8096x3 images, each with size 160x320x3, that is a total of 3,730,636,800 numpy uint8s in memory.
+This leaves little space for the model to train. We can use three techniques to solve this
  
 - Custom Generators
     - Generators behave like iterators but without the memory overhead, they do not load all the data into memory. A generator returns a generator instead of an iterator object. when next() is called or a for loop used on this object the next value is returned. 
@@ -272,6 +273,7 @@ Loading all the images at once can consume quite a bit of memory. In our case (o
 - Training the Model in batches
     - The model could be trained in batches (different from batch_size) with `--resume=True` where we supply a smaller dataset in each batch.
 
+We wrote our own custom generators `generator_train()` and `generator_validation()`
 #### 7. Loss Function
 
 We use Mean Squared Error as the loss function as we are solving a regression problem. Our output needs the predicted steering value, a value in the interval \[-1,-1\]. 

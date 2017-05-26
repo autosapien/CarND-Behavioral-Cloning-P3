@@ -169,8 +169,8 @@ I think we should be able to better this driver.
 We have a look at the distribution and of the steering angles in the data provided.
 
 ![steering histogram](static/histogram_steering_0.jpg)
-![steering signal 1](static/signal_steering_0.jpg)
-![steering signal 2](static/signal_steering_1.jpg)
+![steering signal 1](static/signal_steering_0_0.jpg)
+![steering signal 2](static/signal_steering_1_0.jpg)
 
 The data consists of 8096 driving inputs with images from the center, left and right cameras. In addition we have steering, throttle and brake values for each input. Only the steering values are examined as our goal is to steer the driving at a constant spped. 
 The data is heavily skewed towards driving straight. This is consistent with the fact that the training track is predominantly straight (or close to that.

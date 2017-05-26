@@ -150,11 +150,11 @@ python video.py run1 --fps 48
 
 Will run the video at 48 FPS. The default FPS is 60.
 
-### `models`
+##### `models\`
 
-Empty directory where models are save every epoch
+Directory where models are saved after every epoch is completed
 
-### `static\`
+#### `static\`
 
 Directory where the visualizations are stored
 

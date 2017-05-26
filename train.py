@@ -18,7 +18,7 @@ flags = tf.app.flags
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('data_dir', 'sample_data/', "Directory where the sample data is")
-flags.DEFINE_integer('epochs', 5, 'Number of epochs to train')
+flags.DEFINE_integer('epochs', 10, 'Number of epochs to train')
 flags.DEFINE_integer('batch', 32, 'Size of each training batch')
 flags.DEFINE_string('model_out', 'model.h5', 'File to save the model')
 flags.DEFINE_boolean('resume', False, 'If Training should resume')

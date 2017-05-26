@@ -184,8 +184,8 @@ We may need to apply mild smoothing to the steering signal if our car is too shi
 #### 2. Image Pre-processing
 
 All images are preprocessed by two steps. in by `process_camera_image()`. **IMPORTANT** These same pre-processing is applied to training, validation and test run (in `drive.py`) images. The two steps are:
-* Normalization - Each channel of a 3 channel input image is normalized between \[-0.5, 0.5\] by (value / 255) - 0.5.
-* Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the bottom, 25 each on the left and right
+- Normalization - Each channel of a 3 channel input image is normalized between \[-0.5, 0.5\] by (value / 255) - 0.5.
+- Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the bottom, 25 each on the left and right
 
 Here is what the prepocessing does to the images
 ![processed image](static/processed_0_0.jpg)
@@ -197,21 +197,21 @@ Here is what the prepocessing does to the images
 
 While training we employ data augmentation. This helps the model anticipate situations it has not seen before to become a better driver, this alse prevents overfitting when there is limited training data. 
 A Number of augmentation techniques were developed:
-* Horizontal Image Flipping - Each image is flipped horizontally, this helps with any bias there may be in the driving data. One would expect a car to turn with exactly opposite angles while negotiating mirrored left and right turns
- ** steering measurement = -1 * steering measurement
-* Side camera images - The left camera image shows what the car would see if it was going leftwards. This can be used to train recovery paths
- ** For left cam: steering measurement = steering measurement + 0.15
- ** For right cam: steering measurement = steering measurement - 0.15
-* Lateral Shift - A lateral horizontal shift can also help train recovery paths
- ** For image shift to right: steering measurement = steering measurement - shift_by x factor
- ** For image shift to left: steering measurement = steering measurement + shift_by x factor
-* Brightness Modification - Alter the Value channel in the HSV image, this helps with different lighting conditions
-  ** steering measurement = steering measurement
+- Horizontal Image Flipping - Each image is flipped horizontally, this helps with any bias there may be in the driving data. One would expect a car to turn with exactly opposite angles while negotiating mirrored left and right turns
+    steering measurement = -1 * steering measurement
+- Side camera images - The left camera image shows what the car would see if it was going leftwards. This can be used to train recovery paths
+    For left cam: steering measurement = steering measurement + 0.15
+    For right cam: steering measurement = steering measurement - 0.15
+- Lateral Shift - A lateral horizontal shift can also help train recovery paths
+    For image shift to right: steering measurement = steering measurement - shift_by x factor
+    For image shift to left: steering measurement = steering measurement + shift_by x factor
+- Brightness Modification - Alter the Value channel in the HSV image, this helps with different lighting conditions
+    steering measurement = steering measurement
 
-After trial and error we used horizontal image flipping and side camera images
+After trial and error we used horizontal image flipping and side camera images with the following proportion
 
-* 50 % of selected images were flipped horizontally
-* 2 in 5 images from the sides were used (3 out of 5 times we used the center cam) 
+- 40% of the images were selected from the side cams (20% from each). Thus 60% where from the center cam
+- 50% of selected images were flipped horizontally
 
 ![training images](static/training_0.jpg)
 
@@ -261,13 +261,13 @@ Why fit_generator() is used in place of fit() is explained below
 
 Loading all the images at once can consume quite a bit of memory. In our case (only with sample data) we have  8096x3 images each with size 160x320x3, that is a total of 3,730,636,800 numpy uint8s in memory. This leaves little space for the model to train. We can use two techniques to solve this
  
-* Custom Generators
-  ** Generators behave like iterators but without the memory overhead, they do not load all the data into memory. A generator returns a generator instead of an iterator object. when next() is called or a for loop used on this object the next value is returned. 
-  ** Two generators are used, for the training_data and for the validation_data. The training generator pre-processes the image and applies the data augmetation, the validation generator only pre-processes the images     
-* Keras ImageDataGenerator
-  ** This provides out of the box image processing. The only issues are how does this work on a regression problem (instead of a classification one) and how would we change the labels (in our case reverse the steering angle). Can this be subclassed (need to see) ?? 
-* Training the Model in batches
-  ** The model could be trained in batches (different from batch_size) with `--resume=True` where we supply a smaller dataset in each batch.
+- Custom Generators
+    Generators behave like iterators but without the memory overhead, they do not load all the data into memory. A generator returns a generator instead of an iterator object. when next() is called or a for loop used on this object the next value is returned. 
+    Two generators are used, for the training_data and for the validation_data. The training generator pre-processes the image and applies the data augmetation, the validation generator only pre-processes the images     
+- Keras ImageDataGenerator
+    This provides out of the box image processing. The only issues are how does this work on a regression problem (instead of a classification one) and how would we change the labels (in our case reverse the steering angle). Can this be subclassed (need to see) ?? 
+- Training the Model in batches
+    The model could be trained in batches (different from batch_size) with `--resume=True` where we supply a smaller dataset in each batch.
 
 #### 7. Loss Function
 

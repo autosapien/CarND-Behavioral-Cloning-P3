@@ -242,7 +242,7 @@ We tried 2 different models these can be seen in `model.py`. Finally a simplifie
 Dropouts were added to prevent the model from overtraining. A larger stride (3,3) as compared with a (2,2) stride used by Nvidia is employed in the first Conv2D layer as we have a larger input image (90,270,3) as opposed to a (66x200,3).
 The model uses ELU layers to introduce nonlinearity. Here is a visualization of the architecture
 
-[model](static/model.png)
+![model](static/model.png1)
 
 #### 5. Training
 
@@ -329,22 +329,24 @@ python video.py run_final --fps 60
 mv run_final.mp4 static/
 ```
 
-The video run of a lap at 60 fps can be seen [here](static/run_final.mp4)
-Compare this with the [video](static/sample_driving.mp4) of generated from the training data.
+Compare the [video run](static/run_final.mp4) of a lap at 60 fps to the [one generated](static/sample_driving.mp4) from the training data
 
-300 seconds of training with almost no real augmentation **beat the Udacity engineer** who drove the sample video. :-)
+300 seconds of training with almost no real augmentation **Beat the Udacity Engineer** who drove the sample video. :-)
 
 ### Tools and Tips
 
 Some tools and tips to help in quick development
 
-If the model is being trained remotely (say on AWS). The HDFS (.h5) model file could be large (this happens especially when we use large fully connected layers). Instead of downloading the file after each run, it is possible to run the testing in the simulator from the remote service (drive.py) on the server with an SSH tunnel. Note we need to use a slow drive speed and have a low latency connection to the server as the image data from `drive` needs to be sent to the remote machine.
+If the model is being trained remotely (say on AWS). The HDFS (.h5) model file could be large (this happens especially when we use large fully connected layers). 
+Instead of downloading the file after each run, it is possible to run the testing in the simulator from the remote service (drive.py) on the server with an SSH tunnel. 
+Note we need to use a slow drive speed and have a low latency connection to the server as the image data from `drive` needs to be sent to the remote machine.
 
 ```
 ssh -L 4567:xxx.xxx.xxx.xxx:4567 carnd@xxx.xxx.xxx.xxx
 ``` 
 
-After every epoch is completed model (weights and network) can be save to an .h5 file. This is very useful in training as one can use the .h5 files for running a test while the model is still training. Problems areas can be isolated faster.
+After every epoch is completed model (weights and network) can be save to an .h5 file.
+This is very useful in training as one can use the .h5 files for running a test while the model is still training. Problems areas can be isolated faster.
 Keras provides ModelCheckpoint for exactly this purpose. The check points are passed to the fit_generation a function an argument.
 ```
 checkpoints = []
@@ -377,8 +379,8 @@ This solution solves the problem with very little computational power. A more ge
 
 ### Future Work
 
-* Add the normalization as a lamba layer in the model
-* Add the Cropping2D layer to select region of interest to the model
+* Add a Lambda layer in the model for normalization the image
+* Add aCropping2D layer in the model to select the region of interest in the image
 * Examine if ImageDataGenerator can be subclassed and used or with flow() / flow_from_directory() for regression problems
 * Add perspective transforms, horizontal and vertical shifting, shadows, blurring, color transforms etc to use this training data to learn to drive on a new course  
 * Buy an Nvidia GPU and a suitable desktop to run locally

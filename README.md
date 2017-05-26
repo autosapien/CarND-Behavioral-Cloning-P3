@@ -154,7 +154,7 @@ Will run the video at 48 FPS. The default FPS is 60.
 
 Directory where models are saved after every epoch is completed
 
-#### `static\`
+##### `static\`
 
 Directory where the visualizations are stored
 
@@ -162,8 +162,8 @@ Directory where the visualizations are stored
 
 #### 1. Data Analysis
 
-We examine the sample data by build a [video](static/sample_driving.mp4) from the front cam. 
-It is clear that the video is from a video game simulator, the result is too jerky to be from a good car driver driving in a real car or a real car simulator.
+We examine the sample data by building a [video](static/sample_driving.mp4) from the front cam. 
+It is clear that the video is from a video game simulator, the driving is too jerky to be from a good car driver driving in a real car or a real car simulator.
 I think we should be able to better this driver.
 
 We have a look at the distribution and of the steering angles in the data provided.
@@ -172,15 +172,20 @@ We have a look at the distribution and of the steering angles in the data provid
 ![steering signal 1](static/signal_steering_0_0.jpg)
 ![steering signal 2](static/signal_steering_1_0.jpg)
 
-The data consists of 8096 driving inputs with images from the center, left and right cameras. In addition we have steering, throttle and brake values for each input. Only the steering values are examined as our goal is to steer the driving at a constant spped. 
-The data is heavily skewed towards driving straight. This is consistent with the fact that the training track is predominantly straight (or close to that.
-We also note that the steering inputs do not oscillate too much (as should be while driving a car). There could be problems areas around the 3450 mark and around 4050 to 4200. We may need to apply mild smoothing to the steering signal if our car is too shifty or use better training data.
+The data consists of 8096 driving inputs with images from the center, left and right cameras. 
+In addition we have steering, throttle and brake values for each input. 
+Only the steering values are examined as our goal is to steer the driving at a constant speed. 
+The data is heavily skewed towards driving straight. 
+This is consistent with the fact that the training track is predominantly straight (or close to that.
+We also note that the steering inputs do not oscillate too much (as should be while driving a car). 
+There could be problems areas around the 3450 mark and around 4050 to 4200. 
+We may need to apply mild smoothing to the steering signal if our car is too shifty or use better training data.
 
 #### 2. Image Pre-processing
 
 All images are preprocessed by two steps. in by `process_camera_image()`. **IMPORTANT** These same pre-processing is applied to training, validation and test run (in `drive.py`) images. The two steps are:
 * Normalization - Each channel of a 3 channel input image is normalized between \[-0.5, 0.5\] by (value / 255) - 0.5.
-* Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the botton, 25 each on the left and right
+* Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the bottom, 25 each on the left and right
 
 Here is what the prepocessing does to the images
 ![processed image](static/processed_0_0.jpg)

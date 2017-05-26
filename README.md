@@ -269,7 +269,7 @@ This leaves little space for the model to train. We can use three techniques to 
     - Generators behave like iterators but without the memory overhead, they do not load all the data into memory. A generator returns a generator instead of an iterator object. when next() is called or a for loop used on this object the next value is returned. 
     - Two generators are used, for the training_data and for the validation_data. The training generator pre-processes the image and applies the data augmetation, the validation generator only pre-processes the images     
 - Keras ImageDataGenerator
-    - This provides out of the box image processing. The only issues are how does this work on a regression problem (instead of a classification one) and how would we change the labels (in our case reverse the steering angle). Can this be subclassed (need to see) ?? 
+    - This provides out of the box image processing. But how does this work on a regression problem (instead of a classification one) and how would we change the labels (such as reverse the steering angle). Can this be subclassed? (need to see) 
 - Training the Model in batches
     - The model could be trained in batches (different from batch_size) with `--resume=True` where we supply a smaller dataset in each batch.
 

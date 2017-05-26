@@ -160,7 +160,7 @@ Directory where the visualizations are stored
 
 ### Model Architecture and Training Strategy
 
-####1. Data Analysis
+#### 1. Data Analysis
 
 We examine the sample data by build a [video](static/sample_driving.mp4) from the front cam. 
 It is clear that the video is from a video game simulator, the result is too jerky to be from a good car driver driving in a real car or a real car simulator.
@@ -176,7 +176,7 @@ The data consists of 8096 driving inputs with images from the center, left and r
 The data is heavily skewed towards driving straight. This is consistent with the fact that the training track is predominantly straight (or close to that.
 We also note that the steering inputs do not oscillate too much (as should be while driving a car). There could be problems areas around the 3450 mark and around 4050 to 4200. We may need to apply mild smoothing to the steering signal if our car is too shifty or use better training data.
 
-####1. Image processing
+#### 2. Image Pre-processing
 
 All images are preprocessed by two steps. in by `process_camera_image()`. **IMPORTANT** These same pre-processing is applied to training, validation and test run (in `drive.py`) images. The two steps are:
 * Normalization - Each channel of a 3 channel input image is normalized between \[-0.5, 0.5\] by (value / 255) - 0.5.
@@ -188,7 +188,7 @@ Here is what the prepocessing does to the images
 ![processed image](static/processed_0_2.jpg)
 
 
-####2. Data Augmentation
+#### 3. Data Augmentation
 
 While training we employ data augmentation. This helps the model anticipate situations it has not seen before to become a better driver, this alse prevents overfitting when there is limited training data. 
 A Number of augmentation techniques were developed:
@@ -210,7 +210,7 @@ After trial and error we used horizontal image flipping and side camera images
 
 ![training images](static/training_0.jpg)
 
-####3. Model Architecture
+#### 4. Model Architecture
 
 We tried 2 different models these can be seen in `model.py`. Finally a simplified nvidia model was used. 
 
@@ -239,7 +239,7 @@ The model uses ELU layers to introduce nonlinearity. Here is a visualization of 
 
 [model](static/model.png)
 
-####4. Training
+#### 5. Training
 
 Data was split into training and validation sets with 20% going to validation. As mentioned earlier training data was augmented. This was run with fit_generator() with 10240 training and 2048 validation samples.
 ```
@@ -252,7 +252,7 @@ model.fit_generator(train_generator,
 ```                        
 Why fit_generator() is used in place of fit() is explained below 
 
-####5. Resource Management
+#### 6. Resource Management
 
 Loading all the images at once can consume quite a bit of memory. In our case (only with sample data) we have  8096x3 images each with size 160x320x3, that is a total of 3,730,636,800 numpy uint8s in memory. This leaves little space for the model to train. We can use two techniques to solve this
  
@@ -264,15 +264,15 @@ Loading all the images at once can consume quite a bit of memory. In our case (o
 * Training the Model in batches
   ** The model could be trained in batches (different from batch_size) with `--resume=True` where we supply a smaller dataset in each batch.
 
-####6. Loss Function
+#### 7. Loss Function
 
 We use Mean Squared Error as the loss function as we are solving a regression problem. Our output needs the predicted steering value, a value in the interval \[-1,-1\]. 
     
-####7. Overfitting Prevention
+#### 8. Overfitting Prevention
 
 The model contains dropout layers after every convolutional layer in order to reduce overfitting with a keep probability of 0.7
 
-####8. Model Parameter Tuning
+#### 9. Model Parameter Tuning
 
 * Learning rate - The model uses an Adam Optimizer with the default learning rate of **0.001** and no decay. In case we train for a large number of epochs we should use a decay.
 * Batch Size - Within each epoch we used a batch size of **32**

@@ -373,3 +373,4 @@ This solution solves the problem with very little computational power. A more ge
 * Add the Cropping2D layer to select region of interest to the model
 * Examine if ImageDataGenerator can be subclassed and used or with flow() / flow_from_directory() for regression problems
 * Add perspective transforms, horizontal and vertical shifting, shadows, blurring, color transforms etc to use this training data to learn to drive on a new course  
+* Buy an Nvidia GPU and a suitable desktop to run locally

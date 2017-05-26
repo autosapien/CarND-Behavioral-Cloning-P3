@@ -183,9 +183,9 @@ All images are preprocessed by two steps. in by `process_camera_image()`. **IMPO
 * Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the botton, 25 each on the left and right
 
 Here is what the prepocessing does to the images
+![processed image](static/processed_0_0.jpg)
 ![processed image](static/processed_0_1.jpg)
 ![processed image](static/processed_0_2.jpg)
-![processed image](static/processed_0_3.jpg)
 
 
 ####2. Data Augmentation

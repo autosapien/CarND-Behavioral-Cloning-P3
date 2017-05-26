@@ -19,7 +19,8 @@ The goals / steps of this project are the following:
 * [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
 
 The environment to run this can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
-Additional tools needed for model visualization are graphviz, pydot-ng. Comment out `plot(model, to_file='static/model.png', show_shapes=True)` in `train.py` if no visualization is needed. There can be installed as
+
+Additional tools needed for model visualization are graphviz, pydot-ng. If model visualization is not needed comment out `plot(model, to_file='static/model.png', show_shapes=True)` in `train.py`. There can be installed as
 ```
 brew install graphviz  # apt-get install graphviz for debian derivaties
 source activate carnd-term1
@@ -31,10 +32,10 @@ conda install graphviz
 
 The Simulator used to train and test the car around track can be downloaded from:
 
-[Linux](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae46bb_linux-sim/linux-sim.zip)
-[Windows](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4594_mac-sim.app/mac-sim.app.zip)
-[macOS](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4419_windows-sim/windows-sim.zip)
-[Source](https://github.com/udacity/self-driving-car-sim)
+* [Linux](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae46bb_linux-sim/linux-sim.zip)
+* [Windows](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4594_mac-sim.app/mac-sim.app.zip)
+* [macOS](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/58ae4419_windows-sim/windows-sim.zip)
+* [Source](https://github.com/udacity/self-driving-car-sim)
 
 NOTES* 
 On Windows 8 there is an issue where drive.py is unable to establish a data connection with the simulator. If you are running Windows 8 It is advised to upgrade to Windows 10, which should be free, and then you should be able to run the project properly.
@@ -46,23 +47,23 @@ Deep neural networks and convolutional neural networks to clone driving behavior
 
 ### Details About Files In This Directory
 
-#### Sample Data
+#### `sample_data/`
 
 Sample Driving data is NOT included in the repo. This can be downloaded from https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip
 Download this data into the sample_data directory.
 
-#### Collected Data
+#### `collected_data`
 
-Data is collected while driving the car in the simulator and this is saved in directory collected_data. It is hard to collect good data without a joystick so best to go go with the sampled data only. If you do collect data then
-the `--resume=True` option in `train.py` can be used to fine tune the weights.
+Save the data collected while driving the car in the simulator here. It is hard to collect good data without a joystick so best to go go with the sampled data only. If you do collect data then
+the `--resume=True` option in `train.py` can be used to fine tune the weights (more on this later).
 
-#### Augmented Data
+#### `augmented_data`
 
 In addition to collecting data by driving the car, it is possible to use `augment.py` to find specific steering angles that are troublesome. These images can be used with to continue training a model with `--resume=True` in `train.py`.
  
 ### `train.py`
 
-This loads the data from the sample_data directory and the collected_data directory and trains our model on this data, finally this saves the model into an h5 file 'model.h5'. See the last line in train.py to see model being saved with:
+This loads the data from the `--data_dir` (default `sample_data\`) directory and trains the model, finally this saves the model into an h5 file `--out_model` (default model.h5). See the last line in train.py to see model being saved with:
 ```
 model.save(FLAGS.model_out)
 ```
@@ -70,18 +71,20 @@ The model is described below in the section "Model Architecture and Training Str
 
 ### `process_camera_image.py`
 
-Processes the images capurred by the simulator during the training phase. This same image processing is done during the drive phase. This is IMPORTANT, we want our model to get the data transformed in the same manner during training and driving.
-Normalization (for each color channel value / 255 - 0.5) and cropping is performed for all images while training and predicting.
+Processes the images captured by the simulator during the training phase. This same image processing is done during the drive phase. 
+**IMPORTANT** We want the same pre processing on the data during training and driving.
+Pre-processing includes normalization (for each color channel value / 255 - 0.5) and cropping top 50, bottom 20, left 25 and right 25
  
-
 ### `model.py`
 
-This builds two models one is the Nvidia model with added dropouts, described here TODO. The other is a madel with fewer convolutional layers. After trial and error the simlified one was chosen.  
+This builds two models one is the Nvidia model with added dropouts, described here TODO. The other is a madel with fewer convolutional layers. 
+After trial and error the simplified one was chosen.
 The model is described below in the section "Model Architecture and Training Strategy"
 
 ### `visualization_helpers.py`
 
-Helper functions that build visualizations from the data as it processed at various stages. This is helpful during the planning phase as it allows us to see the data under that hood. These also helps with writing a good Readme.
+Helper functions that build visualizations from the data as it processed at various stages.
+This is helpful during the planning phase as it allows us to see the data under that hood. These also helps with writing a good Readme.
 
 ### `csv_helpers.py`
 

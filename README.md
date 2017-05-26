@@ -184,7 +184,7 @@ We may need to apply mild smoothing to the steering signal if our car is too shi
 #### 2. Image Pre-processing
 
 All images are preprocessed by two steps in by `process_camera_image()`. **IMPORTANT** These same pre-processing is applied to training, validation (`in train.py` and test run (`in drive.py`) images. The two steps are:
-- Normalization - Each channel of a 3 channel input image is normalized between \[-0.5, 0.5\] by (value / 255) - 0.5.
+- Normalization - Each of the 3 channels the input image is normalized between \[-0.5, 0.5\] by applying the formula `value = (value / 255) - 0.5`.
 - Region of Interest - The surrounding trees, lakes and car dashboard are not really relevant to driving the car on the road. So the image is cropped 50 px on top, 20 at the bottom, 25 each on the left and right
 
 Here is what the prepocessing does to the images
@@ -215,6 +215,8 @@ After trial and error we used horizontal image flipping and side camera images w
 
 - 40% of the images were selected from the side cams (20% from each). Thus 60% where from the center cam
 - 50% of selected images were flipped horizontally
+
+Some augmented images with their steering values.
 
 ![training images](static/training_0.jpg)
 
@@ -247,7 +249,9 @@ Dropouts were added to prevent the model from overtraining.
 A larger stride (3,3) as compared with a (2,2) stride used by Nvidia is employed in the first Conv2D layer as we have a larger input image (90,270,3) as opposed to a (66x200,3).
 The model uses ELU layers to introduce nonlinearity. Here is a visualization of the architecture
 
-![model](static/model.png)<!-- .element height="30%" width="30%" -->
+![model](static/model.png)
+<img src="static/model.png"  height="200" />
+
 
 #### 5. Training
 

@@ -27,7 +27,7 @@ def save_image_pair(image, processed_image, directory, name):
 
 
 def save_training_images(imgs, steer, filename):
-    fig, axes = plt.subplots(nrows=4, ncols=4, figsize=(12, 5.5))
+    fig, axes = plt.subplots(nrows=4, ncols=4, figsize=(13, 6))
     fig.subplots_adjust(hspace=.2, wspace=.05)
     for i, img in enumerate(imgs):
         axes[i // 4, i % 4].imshow(imgs[i])

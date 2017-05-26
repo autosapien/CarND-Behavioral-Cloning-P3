@@ -40,15 +40,15 @@ def save_steering_histogram(y_train, title, filename):
     fig = plt.figure(figsize=(4, 4))
     hist, bins = np.histogram(y_train, bins=50, range=(-1, 1))
     plt.bar(bins[:-1], hist, align='center', width=0.1)
-    plt.title(title)
+    plt.title(title, fontsize=10)
     plt.ylabel('Number of Occurrences')
     plt.tight_layout()
     fig.savefig(filename)
 
 
 def save_steering_signal(signal, time_range, filename):
-    fig = plt.figure(figsize=(8, 3))
-    plt.title('Steering Signal')
+    fig = plt.figure(figsize=(8, 2.5))
+    plt.title('Steering Signal', fontsize=10)
     plt.xlabel("Time (event {} to {})".format(time_range[0], time_range[1]))
     plt.ylim(-1, 1)
     plt.plot(signal[time_range[0]:time_range[1]], linewidth=1)

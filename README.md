@@ -47,21 +47,21 @@ Deep neural networks and convolutional neural networks to clone driving behavior
 
 ### Details About Files In This Directory
 
-#### `sample_data/`
+##### `sample_data/`
 
 Sample Driving data is NOT included in the repo. This can be downloaded from https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip
 Download this data into the sample_data directory.
 
-#### `collected_data`
+##### `collected_data/`
 
 Save the data collected while driving the car in the simulator here. It is hard to collect good data without a joystick so best to go go with the sampled data only. If you do collect data then
 the `--resume=True` option in `train.py` can be used to fine tune the weights (more on this later).
 
-#### `augmented_data`
+##### `augmented_data/`
 
 In addition to collecting data by driving the car, it is possible to use `augment.py` to find specific steering angles that are troublesome. These images can be used with to continue training a model with `--resume=True` in `train.py`.
  
-### `train.py`
+##### `train.py`
 
 This loads the data from the `--data_dir` (default `sample_data\`) directory and trains the model, finally this saves the model into an h5 file `--out_model` (default model.h5). See the last line in train.py to see model being saved with:
 ```
@@ -69,36 +69,36 @@ model.save(FLAGS.model_out)
 ```
 The model is described below in the section "Model Architecture and Training Strategy"
 
-### `process_camera_image.py`
+##### `process_camera_image.py`
 
 Processes the images captured by the simulator during the training phase. This same image processing is done during the drive phase. 
 **IMPORTANT** We want the same pre processing on the data during training and driving.
 Pre-processing includes normalization (for each color channel value / 255 - 0.5) and cropping top 50, bottom 20, left 25 and right 25
  
-### `model.py`
+##### `model.py`
 
 This builds two models one is the Nvidia model with added dropouts, described here TODO. The other is a madel with fewer convolutional layers. 
 After trial and error the simplified one was chosen.
 The model is described below in the section "Model Architecture and Training Strategy"
 
-### `visualization_helpers.py`
+##### `visualization_helpers.py`
 
 Helper functions that build visualizations from the data as it processed at various stages.
 This is helpful during the planning phase as it allows us to see the data under that hood. These also helps with writing a good Readme.
 
-### `csv_helpers.py`
+##### `csv_helpers.py`
 
 Helper functions to load and save csv data.    
 
-### `camera_helpers.py`
+##### `camera_helpers.py`
 
 Contains functions that manipulate images. Primarily uses openCV (cv2) and direct manipulation of numpy arrays    
 
-### `augment.py`
+##### `augment.py`
 
 This can be used to augment the dataset by finding those images that have high steering angles. This should help the car navigate better at tight corners.
 
-### `drive.py`
+##### `drive.py`
 
 Once the model has been saved, it can be used by `drive.py` to autonomously drive the vehicle. First on the shell we run the command 
 ```

@@ -249,7 +249,7 @@ model.fit_generator(train_generator,
 ```                        
 Why fit_generator() is used in place of fit() is explained below 
 
-####5. Resource management
+####5. Resource Management
 
 Loading all the images at once can consume quite a bit of memory. In our case (only with sample data) we have  8096x3 images each with size 160x320x3, that is a total of 3,730,636,800 numpy uint8s in memory. This leaves little space for the model to train. We can use two techniques to solve this
  
@@ -265,13 +265,13 @@ Loading all the images at once can consume quite a bit of memory. In our case (o
 
 We use Mean Squared Error as the loss function as we are solving a regression problem. Our output needs the predicted steering value, a value in the interval \[-1,-1\]. 
     
-####7. Overfitting the model
+####7. Overfitting Prevention
 
 The model contains dropout layers after every convolutional layer in order to reduce overfitting with a keep probability of 0.7
 
-####8. Model parameter tuning
+####8. Model Parameter Tuning
 
-* Learning rate - The model used an adam optimizer with the default learning rate of **0.001** and no decay. In case we train for a large number of epochs we should use a decay.
+* Learning rate - The model uses an Adam Optimizer with the default learning rate of **0.001** and no decay. In case we train for a large number of epochs we should use a decay.
 * Batch Size - Within each epoch we used a batch size of **32**
 * Number of Epochs - **10** epochs (with **10240** samples each) were sufficient solve the problem well. Allows the drive to be at 20+ mph
 
@@ -366,3 +366,10 @@ This solution solves the problem with very little computational power. A more ge
 * Color manipulation could also be employed on the images to train it better for roads with different colors
 * Apply perspective transforms to the images would greatly help
 * Areas where the model fails (say in a new environment) due to shadows, tight curves, slopes etc, road color etc. we could train it specifically to handle those cases by using either augment.py to isolate failure features or by applying a high probability to failure features our training generator function `generator_train()`
+
+### Future Work
+
+* Add the normalization as a lamba layer in the model
+* Add the Cropping2D layer to select region of interest to the model
+* Examine if ImageDataGenerator can be subclassed and used or with flow() / flow_from_directory() for regression problems
+* Add perspective transforms, horizontal and vertical shifting, shadows, blurring, color transforms etc to use this training data to learn to drive on a new course  

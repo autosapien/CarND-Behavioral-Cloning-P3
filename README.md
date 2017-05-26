@@ -245,7 +245,11 @@ We tried 2 different models these can be seen in `model.py`. Finally a simplifie
 Dropouts were added to prevent the model from overtraining. A larger stride (3,3) as compared with a (2,2) stride used by Nvidia is employed in the first Conv2D layer as we have a larger input image (90,270,3) as opposed to a (66x200,3).
 The model uses ELU layers to introduce nonlinearity. Here is a visualization of the architecture
 
-![model](static/model.png)
+![model](static/model.png){
+  height: 30%;
+  border: none;
+  background: none;
+}
 
 #### 5. Training
 
